@@ -1,0 +1,36 @@
+<svg width="1500" height="420" viewBox="0 0 1500 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .card { fill: #ffffff; stroke: #d4dce1; stroke-width: 2; rx: 16; ry: 16; }
+      .icon { fill: #ff5c8f; }
+      .text { font-family: 'Arial', sans-serif; fill: #22303c; font-size: 22px; }
+      .small { font-size: 16px; }
+      .outline { fill: none; stroke: #d4dce1; stroke-width: 3; rx: 24; ry: 24; }
+    </style>
+  </defs>
+  <rect width="1500" height="420" fill="#f2f7f8" />
+  <rect x="360" y="70" width="910" height="280" class="outline" />
+  <text x="815" y="95" class="text small" text-anchor="middle">Lambda checks that an alert has not already been sent for an open slot</text>
+  <rect x="90" y="150" width="270" height="110" class="card" />
+  <circle cx="130" cy="205" r="26" class="icon" />
+  <text x="130" y="213" font-family="Arial" font-size="18" text-anchor="middle" fill="#ffffff">EB</text>
+  <text x="180" y="214" class="text">Every10Minutes</text>
+  <rect x="500" y="150" width="270" height="110" class="card" />
+  <circle cx="540" cy="205" r="26" class="icon" />
+  <text x="540" y="213" font-family="Arial" font-size="18" text-anchor="middle" fill="#ffffff">λ</text>
+  <text x="590" y="214" class="text">PollDataAPI</text>
+  <rect x="910" y="150" width="270" height="110" class="card" />
+  <circle cx="950" cy="205" r="26" class="icon" />
+  <text x="950" y="213" font-family="Arial" font-size="18" text-anchor="middle" fill="#ffffff">DB</text>
+  <text x="1000" y="214" class="text">AlertSent</text>
+  <rect x="1320" y="150" width="270" height="110" class="card" />
+  <circle cx="1360" cy="205" r="26" class="icon" />
+  <text x="1360" y="213" font-family="Arial" font-size="18" text-anchor="middle" fill="#ffffff">SNS</text>
+  <text x="1410" y="214" class="text">AlertOnFreeSlots</text>
+  <line x1="360" y1="205" x2="500" y2="205" stroke="#5a8dd2" stroke-width="4" />
+  <polygon points="500,195 518,205 500,215" fill="#5a8dd2" />
+  <line x1="770" y1="205" x2="910" y2="205" stroke="#5a8dd2" stroke-width="4" />
+  <polygon points="910,195 928,205 910,215" fill="#5a8dd2" />
+  <line x1="1180" y1="205" x2="1320" y2="205" stroke="#5a8dd2" stroke-width="4" />
+  <polygon points="1320,195 1338,205 1320,215" fill="#5a8dd2" />
+</svg>

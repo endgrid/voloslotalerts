@@ -2,6 +2,11 @@
 
 Lambda function that polls Volo's unauthenticated GraphQL endpoint for open volleyball pickup or drop-in slots at DU Gates Fieldhouse, Club Volo SoBo Indoor, and Volo Sports Arena. When new slots appear, it sends an SMS via SNS and records event keys in DynamoDB to avoid duplicate notifications.
 
+## Architecture overview
+
+
+![Infrastructure Composer diagram](docs/infrastructure-diagram.svg)
+
 ## Files
 - `lambda_function.py` – AWS Lambda handler containing the polling, DynamoDB de-dupe, and SNS notification logic.
 
