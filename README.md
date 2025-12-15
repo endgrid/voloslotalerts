@@ -9,6 +9,14 @@ Lambda function that polls Volo's unauthenticated GraphQL endpoint for open voll
 - `SNS_TOPIC_ARN` – ARN for an SNS topic that has the desired phone numbers subscribed.
 - `DDB_TABLE_NAME` – DynamoDB table name containing a string primary key `EventKey` (and optional `CreatedAt`).
 
+## Required AWS permissions
+The Lambda execution role needs permission to publish to the SNS topic and read/write to the DynamoDB table:
+
+- SNS: `sns:Publish` on the topic referenced by `SNS_TOPIC_ARN`.
+- DynamoDB: `dynamodb:GetItem` and `dynamodb:PutItem` on the table referenced by `DDB_TABLE_NAME`.
+
+Granting only these actions (and scoping them to the specific resources) keeps the role minimal while allowing alerts and de-duplication to function.
+
 ## Notes
 - Uses the DiscoverDaily query against `https://volosports.com/hapi/v1/graphql` with the `PLAYER` role header.
 - Only considers volleyball pickup programs in Denver at the indoor venues listed in `VENUE_IDS`.
