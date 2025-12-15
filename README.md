@@ -4,8 +4,7 @@ Lambda function that polls Volo's unauthenticated GraphQL endpoint for open voll
 
 ## Architecture overview
 
-
-![Infrastructure Composer diagram](docs/infrastructure-diagram.svg)
+<img width="3598" height="928" alt="infrastructure-composer-template yaml" src="https://github.com/user-attachments/assets/089859ca-4914-4070-aece-e1a60f31946b" />
 
 ## Files
 - `lambda_function.py` – AWS Lambda handler containing the polling, DynamoDB de-dupe, and SNS notification logic.
