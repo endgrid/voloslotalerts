@@ -1,6 +1,6 @@
 # voloslotalerts
 
-Lambda function that polls Volo's unauthenticated GraphQL endpoint for open volleyball pickup or drop-in slots at DU Gates Fieldhouse and Club Volo SoBo Indoor. When new slots appear, it sends an SMS via SNS and records event keys in DynamoDB to avoid duplicate notifications.
+Lambda function that polls Volo's unauthenticated GraphQL endpoint for open volleyball pickup or drop-in slots at DU Gates Fieldhouse, Club Volo SoBo Indoor, and Volo Sports Arena. When new slots appear, it sends an SMS via SNS and records event keys in DynamoDB to avoid duplicate notifications.
 
 ## Files
 - `lambda_function.py` – AWS Lambda handler containing the polling, DynamoDB de-dupe, and SNS notification logic.
@@ -41,7 +41,7 @@ Granting only these actions (and scoping them to the specific resources) keeps t
 
 ## Notes
 - Uses the DiscoverDaily query against `https://volosports.com/hapi/v1/graphql` with the `PLAYER` role header.
-- Only considers volleyball pickup programs in Denver at the indoor venues listed in `VENUE_IDS`.
+- Only considers volleyball pickup programs in Denver at the indoor venues listed in `VENUE_IDS` (DU Gates Fieldhouse, Club Volo SoBo Indoor, and Volo Sports Arena).
 - Alerts only when new game or league entries with available spots are detected.
 
 ## DynamoDB table schema
