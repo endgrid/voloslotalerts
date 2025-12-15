@@ -11,5 +11,5 @@ Lambda function that polls Volo's unauthenticated GraphQL endpoint for open voll
 
 ## Notes
 - Uses the DiscoverDaily query against `https://volosports.com/hapi/v1/graphql` with the `PLAYER` role header.
-- Only considers volleyball pickup programs in Denver at the two indoor venues listed in `VENUE_IDS`.
+- Only considers volleyball pickup programs in Denver at the indoor venues listed in `VENUE_IDS`.
 - Alerts only when new game or league entries with available spots are detected.

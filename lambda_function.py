@@ -12,6 +12,8 @@ What it does:
       ID: 6ef3e03d-9655-4102-9779-a717c28523ef
     * Club Volo SoBo – Indoor
       ID: ef20648e-2eb2-4eee-8a12-6faf00fccac9
+    * Volo Sports Arena (formerly RiNo Sports Arena)
+      ID: 8c856ee8-30f6-45ac-9f02-983178ba0722
 - NO date or time window (future events included)
 - Only program_type = PICKUP
 - Only events with available spots
@@ -37,6 +39,7 @@ VOLO_GRAPHQL = "https://volosports.com/hapi/v1/graphql"
 VENUE_IDS = [
     "6ef3e03d-9655-4102-9779-a717c28523ef",  # DU Gates Fieldhouse
     "ef20648e-2eb2-4eee-8a12-6faf00fccac9",  # Club Volo SoBo Indoor
+    "8c856ee8-30f6-45ac-9f02-983178ba0722",  # Volo Sports Arena (formerly RiNo)
 ]
 
 
@@ -244,7 +247,7 @@ def put_new_keys(table_name, events):
 # ---------- SNS ----------
 
 def send_sms(topic_arn, events):
-    lines = ["New Volo volleyball openings (DU / SoBo):"]
+    lines = ["New Volo volleyball openings (DU / SoBo / Volo Sports Arena):"]
     for e in events:
         lines.append(f"- {e['ProgramName']} @ {e['VenueName']} {e['When']} ({e['Available']} spots)")
     boto3.client("sns").publish(
