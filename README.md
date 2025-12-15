@@ -7,7 +7,7 @@ Lambda function that polls Volo's unauthenticated GraphQL endpoint for open voll
 
 ## Environment variables
 - `SNS_TOPIC_ARN` – ARN for an SNS topic that has the desired phone numbers subscribed.
-- `DDB_TABLE_NAME` – DynamoDB table name containing a string primary key `EventKey` (and optional `CreatedAt`).
+- `DDB_TABLE_NAME` – DynamoDB table name containing a string partition key `EventKey` (no sort key).
 
 ## Required AWS permissions
 The Lambda execution role needs permission to publish to the SNS topic and read/write to the DynamoDB table:
@@ -43,3 +43,52 @@ Granting only these actions (and scoping them to the specific resources) keeps t
 - Uses the DiscoverDaily query against `https://volosports.com/hapi/v1/graphql` with the `PLAYER` role header.
 - Only considers volleyball pickup programs in Denver at the indoor venues listed in `VENUE_IDS`.
 - Alerts only when new game or league entries with available spots are detected.
+
+## DynamoDB table schema
+The DynamoDB table must use **only a single string partition key named `EventKey`** and **no sort key**. Do not provision a composite key. Example table creation commands:
+
+- **AWS CLI**
+
+  ```bash
+  aws dynamodb create-table \
+    --table-name "$DDB_TABLE_NAME" \
+    --attribute-definitions AttributeName=EventKey,AttributeType=S \
+    --key-schema AttributeName=EventKey,KeyType=HASH \
+    --billing-mode PAY_PER_REQUEST
+  ```
+
+- **Terraform**
+
+  ```hcl
+  resource "aws_dynamodb_table" "events" {
+    name         = var.ddb_table_name
+    billing_mode = "PAY_PER_REQUEST"
+
+    hash_key = "EventKey"
+
+    attribute {
+      name = "EventKey"
+      type = "S"
+    }
+  }
+  ```
+
+- **CloudFormation (YAML)**
+
+  ```yaml
+  Resources:
+    EventsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: !Ref DDBTableName
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: EventKey
+            AttributeType: S
+        KeySchema:
+          - AttributeName: EventKey
+            KeyType: HASH
+  Parameters:
+    DDBTableName:
+      Type: String
+  ```
