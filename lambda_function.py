@@ -28,6 +28,7 @@ Required Lambda environment variables:
 import json
 import os
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from typing import List, Dict, Any
 
 import boto3
@@ -54,6 +55,13 @@ def format_datetime_pretty(dt: datetime) -> str:
         return "TBD"
     return f"{dt.strftime('%B')} {dt.day} {int(dt.strftime('%I'))}{dt.strftime('%p')}"
 
+def get_local_timezone() -> timezone:
+    tz_name = os.environ.get("LOCAL_TIMEZONE", "America/Denver")
+    try:
+        return ZoneInfo(tz_name)
+    except ZoneInfoNotFoundError:
+        return timezone.utc
+
 
 def format_estimated(event_date: str, hhmm: str) -> str:
     if not event_date or not hhmm:
@@ -61,7 +69,9 @@ def format_estimated(event_date: str, hhmm: str) -> str:
     try:
         d = datetime.strptime(event_date[:10], "%Y-%m-%d")
         h, m = map(int, hhmm.split(":"))
-        return format_datetime_pretty(d.replace(hour=h, minute=m))
+        dt = d.replace(hour=h, minute=m, tzinfo=timezone.utc)
+        local_dt = dt.astimezone(get_local_timezone())
+        return format_datetime_pretty(local_dt)
     except Exception:
         return "TBD"
 
@@ -71,7 +81,8 @@ def format_game_start(start_iso: str) -> str:
         return "TBD"
     try:
         dt = datetime.fromisoformat(start_iso.replace("Z", "+00:00"))
-        return format_datetime_pretty(dt)
+        local_dt = dt.astimezone(get_local_timezone())
+        return format_datetime_pretty(local_dt)
     except Exception:
         return "TBD"
 

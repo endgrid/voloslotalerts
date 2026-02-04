@@ -12,6 +12,7 @@ Lambda function that polls Volo's unauthenticated GraphQL endpoint for open voll
 ## Environment variables
 - `SNS_TOPIC_ARN` – ARN for an SNS topic that has the desired phone numbers subscribed.
 - `DDB_TABLE_NAME` – DynamoDB table name containing a string partition key `EventKey` (no sort key).
+- `LOCAL_TIMEZONE` – Optional IANA timezone name used to format alerts (defaults to `America/Denver`).
 
 ## Required AWS permissions
 The Lambda execution role needs permission to publish to the SNS topic and read/write to the DynamoDB table:
