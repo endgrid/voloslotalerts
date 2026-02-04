@@ -69,14 +69,8 @@ def format_estimated(event_date: str, hhmm: str) -> str:
     try:
         d = datetime.strptime(event_date[:10], "%Y-%m-%d")
         h, m = map(int, hhmm.split(":"))
-        local_tz = get_local_timezone()
-        local_dt = d.replace(hour=h, minute=m, tzinfo=local_tz)
-        utc_date = d.date()
-        for day_delta in (0, -1, 1):
-            candidate = local_dt + timedelta(days=day_delta)
-            if candidate.astimezone(timezone.utc).date() == utc_date:
-                local_dt = candidate
-                break
+        utc_dt = d.replace(hour=h, minute=m, tzinfo=timezone.utc)
+        local_dt = utc_dt.astimezone(get_local_timezone())
         return format_datetime_pretty(local_dt)
     except Exception:
         return "TBD"
