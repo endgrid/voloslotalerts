@@ -27,7 +27,7 @@ Required Lambda environment variables:
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from typing import List, Dict, Any
 
@@ -69,7 +69,14 @@ def format_estimated(event_date: str, hhmm: str) -> str:
     try:
         d = datetime.strptime(event_date[:10], "%Y-%m-%d")
         h, m = map(int, hhmm.split(":"))
-        local_dt = d.replace(hour=h, minute=m, tzinfo=get_local_timezone())
+        local_tz = get_local_timezone()
+        local_dt = d.replace(hour=h, minute=m, tzinfo=local_tz)
+        utc_date = d.date()
+        for day_delta in (0, -1, 1):
+            candidate = local_dt + timedelta(days=day_delta)
+            if candidate.astimezone(timezone.utc).date() == utc_date:
+                local_dt = candidate
+                break
         return format_datetime_pretty(local_dt)
     except Exception:
         return "TBD"
