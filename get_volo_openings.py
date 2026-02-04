@@ -60,7 +60,8 @@ def get_local_timezone():
     try:
         return ZoneInfo(tz_name)
     except ZoneInfoNotFoundError:
-        return timezone.utc
+        local_tz = datetime.now().astimezone().tzinfo
+        return local_tz or timezone.utc
 
 
 def format_datetime_pretty(dt: datetime) -> str:
