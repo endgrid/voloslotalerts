@@ -44,6 +44,33 @@ Granting only these actions (and scoping them to the specific resources) keeps t
 }
 ```
 
+
+## Connectivity probe (local + Lambda)
+If you want to quickly confirm whether the runtime can reach Volo's GraphQL endpoint (and whether you're being blocked with something like `error code: 1010`), use `connectivity_probe.py`.
+
+- **Local run**
+
+  ```bash
+  python connectivity_probe.py
+  ```
+
+- **Lambda run**
+  - Zip/upload `connectivity_probe.py` as your Lambda code (or include it in your package).
+  - Set the handler to: `connectivity_probe.lambda_handler`
+  - Invoke with any test event payload.
+  - Inspect the returned fields:
+    - `ok`
+    - `http_status`
+    - `body_preview` (where `error code: 1010` usually appears if blocked)
+    - `response_headers`
+    - `diagnosis` (classification + suggested next step)
+
+Optional env vars for the probe:
+- `PROBE_ENDPOINT` (default: `https://volosports.com/hapi/v1/graphql`)
+- `PROBE_TIMEOUT_SECONDS` (default: `20`)
+- `PROBE_USER_AGENT` (default: empty)
+- `PROBE_MODE` (default: `minimal`; use `discover` to run the DiscoverDaily-style query + filters used by the Lambda)
+
 ## Notes
 - Uses the DiscoverDaily query against `https://volosports.com/hapi/v1/graphql` with the `PLAYER` role header.
 - Only considers volleyball pickup programs in Denver at the indoor venues listed in `VENUE_IDS` (DU Gates Fieldhouse, Club Volo SoBo Indoor, and Volo Sports Arena).
